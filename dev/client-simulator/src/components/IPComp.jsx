@@ -7,11 +7,13 @@ const IPComp = () => {
     const [result, setResult] = useState("Predict First");
     const handleSubmit = async () => {
         try {
-            const response = await axios.post("http://127.0.0.1:3500/predict/ip", {
-                ips: [ip],
-            });
+            const response = await axios.post(
+                "http://127.0.0.1:3500/predict/ip",
+                {
+                    ips: [ip],
+                },
+            );
             setResult(response.data.prediction[0][ip]);
-            console.log(response.data.prediction[0]);
         } catch (e) {
             console.log(e);
         }

@@ -11,7 +11,6 @@ const URLComp = () => {
                 urls: [url],
             });
             setResult(response.data.prediction[0][url]);
-            console.log(response.data.prediction[0]);
         } catch (e) {
             console.log(e);
         }

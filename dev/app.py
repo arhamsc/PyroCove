@@ -1,11 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
-import joblib, dill
-import traceback
-import sys
-import pandas as pd
-import numpy as np
-from pathlib import Path
+import joblib, dill, traceback
 from getFileName import getFilePath
 
 #Equivalent to app = Express()
