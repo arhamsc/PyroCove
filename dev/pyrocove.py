@@ -1,10 +1,11 @@
 import joblib
 from pathlib import Path
 from scapy.all import sniff, IP
+import dill
 
 cwd = Path(__file__).parent
 pyroCoveDir = cwd.parent
-modalStoragePath = pyroCoveDir / "dev/modelStorage"
+modalStoragePath = pyroCoveDir / "dev/modelStorage_ip"
 
 def getFilePath(fileName):
     return modalStoragePath / f"{fileName}.pkl"
@@ -18,7 +19,7 @@ try:
         print("RF model loaded.")
 
     with open(getFilePath("ip_tokenizer"), "rb") as fin1:
-        makeTokens = joblib.load(fin1)
+        makeTokens = dill.load(fin1)
         print("Make Tokens loaded.")
 
     with open(getFilePath("ip_vectorizer"), "rb") as fin2:
@@ -43,6 +44,6 @@ def firewall(pkt):
             print(f"Packet with source: {srcAddr} - Dropped")
 
 if __name__ == "__main__":
-
+    print(makeTokens("192.123.233.232"))
     filter = "tcp"
     sniff(filter=filter, prn=firewall)

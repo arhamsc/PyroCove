@@ -4,10 +4,12 @@ import os
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
+import dill
+
 
 currPath = os.path.join(os.getcwd())
 dataPath = os.path.join(currPath, "dataset/OnlyIPData.csv")
-modelStoragePath = currPath + "/modelStorage/"
+modelStoragePath = currPath + "/modelStorage_ip/"
 
 if __name__ == "__main__":
     dataset = pd.read_csv(dataPath)
@@ -39,7 +41,7 @@ if __name__ == "__main__":
     print(RF.score(X_test, y_test))
 
     with open(modelStoragePath + "ip_tokenizer.pkl", "wb") as fin:
-        joblib.dump(makeTokens, fin)
+        dill.dump(makeTokens, fin)
         print("Make Tokens dumped.")
 
     with open(modelStoragePath + "ip_vectorizer.pkl", "wb") as fin:
