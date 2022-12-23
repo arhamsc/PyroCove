@@ -6,36 +6,8 @@ import sys
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from getFileName import getFilePath
 
-# def makeTokens(f):
-#     tkns_BySlash = str(f.encode('utf-8')).split('/')
-#     total_Tokens = []
-
-#     for i in tkns_BySlash:
-#         tokens = str(i).split('-')
-#         tkns_ByDot = []
-
-#     for j in range(0,len(tokens)):
-#         temp_Tokens = str(tokens[j]).split('.')
-#         tkns_ByDot = tkns_ByDot + temp_Tokens
-#         total_Tokens = total_Tokens + tokens + tkns_ByDot
-#     total_Tokens = list(set(total_Tokens))
-
-#     if 'com' in total_Tokens:
-#         total_Tokens.remove('com')
- 
-#     return total_Tokens
-
-cwd = Path(__file__).parent
-pyroCoveDir = cwd.parent
-modalStoragePath = pyroCoveDir / "dev/modelStorage_url"
-modalStoragePath_ip = pyroCoveDir / "dev/modelStorage_ip"
-
-def getFilePath(fileName, type):
-    if (type == "ip"):
-        return modalStoragePath_ip / f"{fileName}.pkl"
-    elif (type == "url"):
-        return modalStoragePath / f"{fileName}.pkl"
 #Equivalent to app = Express()
 app = Flask(__name__)
 
@@ -68,9 +40,6 @@ try:
 except FileNotFoundError as file:
     print(f"{file.filename} doesn't exist.")
 
-print(makeTokens)
-print(makeTokens_ip)
-
 def transformResponse(predictionArray, originalUrls):
     return {
         originalUrls: predictionArray
@@ -83,8 +52,6 @@ def predict():
     if RF:
         try:
             json_ = request.json
-            # query = pd.get_dummies(pd.DataFrame(json_))
-            # query = query.reindex(columns=model_columns, fill_value=0)
             query = vectorizer.transform(json_["urls"])
             print(query)
             prediction = list(RF.predict(query))

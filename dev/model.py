@@ -1,14 +1,9 @@
 import pandas as pd
-import numpy as np
-import os
 import joblib, dill
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-
-currPath = os.path.join(os.getcwd())
-dataPath = os.path.join(currPath, "dataset/Reduced Dataset CSV.csv")
-modelStoragePath = currPath + "/modelStorage_url/"
+from getFileName import dataPath_url as dataPath, getFilePath
 
 if __name__ == "__main__":
     dataset = pd.read_csv(dataPath)
@@ -45,24 +40,18 @@ if __name__ == "__main__":
     RF = RandomForestClassifier(n_estimators=200, criterion='entropy', random_state=42)
     RF.fit(X_train, y_train)
 
-    with open(modelStoragePath + "url_tokenizer.pkl", "wb") as fin0:
+    with open(getFilePath("url_tokenizer", "url"), "wb") as fin0:
             dill.dump(makeTokens, fin0)
             print("Make tokens dumped")
-    with open(modelStoragePath + "url_vectorizer.pkl", "wb") as fin1:
+    with open(getFilePath("url_vectorizer", "url"), "wb") as fin1:
         joblib.dump(vectorizer, fin1)
         print("Vectorizer dumped")
 
-    with open(modelStoragePath + "url_model.pkl", "wb") as fin2:
+    with open(getFilePath("url_model", "url"), "wb") as fin2:
         joblib.dump(RF, fin2)
         print("Model dumped")
     print(RF.score(X_test, y_test))
 
-    # joblib.dump(makeTokens, modelStoragePath + "makeTokens.pkl")
-    # print("Make Tokens Dumped")
-
-    #Dumping columns for validation
-    # joblib.dump(dataset.columns.to_list(), modelStoragePath + "modelColumns.pkl")
-    # print("Columns Dumped")
     query = vectorizer.transform(["https://www.google.co.in",
     "https://www.youtube.in",
     "facebook.unitedcolleges.net",

@@ -2,27 +2,20 @@ import joblib
 from pathlib import Path
 from scapy.all import sniff, IP
 import dill
-
-cwd = Path(__file__).parent
-pyroCoveDir = cwd.parent
-modalStoragePath = pyroCoveDir / "dev/modelStorage_ip"
-
-def getFilePath(fileName):
-    return modalStoragePath / f"{fileName}.pkl"
+from getFileName import getFilePath
 
 makeTokens = (lambda x: x + x) #To initialize callable object for vectorizer
 
-print(getFilePath("ip_tokenizer"))
 try:
-    with open(getFilePath("ip_model"), "rb") as fin:
+    with open(getFilePath("ip_model", "ip"), "rb") as fin:
         RF = joblib.load(fin)
         print("RF model loaded.")
 
-    with open(getFilePath("ip_tokenizer"), "rb") as fin1:
+    with open(getFilePath("ip_tokenizer", "ip"), "rb") as fin1:
         makeTokens = dill.load(fin1)
         print("Make Tokens loaded.")
 
-    with open(getFilePath("ip_vectorizer"), "rb") as fin2:
+    with open(getFilePath("ip_vectorizer", "ip"), "rb") as fin2:
         vectorizer = joblib.load(fin2)
         print("Vectorizer Loaded")
 except FileNotFoundError as file:
