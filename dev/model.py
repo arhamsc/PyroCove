@@ -43,8 +43,8 @@ if __name__ == "__main__":
     RF.fit(X_train, y_train)
 
     with open(getFilePath("url_tokenizer", "url"), "wb") as fin0:
-            dill.dump(makeTokens, fin0)
-            print("Make tokens dumped")
+        dill.dump(makeTokens, fin0)
+        print("Make tokens dumped")
     with open(getFilePath("url_vectorizer", "url"), "wb") as fin1:
         joblib.dump(vectorizer, fin1)
         print("Vectorizer dumped")
