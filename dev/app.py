@@ -42,7 +42,7 @@ def transformResponse(predictionArray, originalUrls):
 
 
 @app.route('/predict/url', methods=['POST'])
-@cross_origin()
+@cross_origin(origins='*')
 def predict():
     if RF:
         try:
